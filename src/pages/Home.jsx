@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -14,110 +14,190 @@ export default function Home() {
   };
 
   const popularRoutes = [
-    { from: 'Bangalore', to: 'Chennai', price: '₹850' },
-    { from: 'Mumbai', to: 'Goa', price: '₹1450' },
-    { from: 'Delhi', to: 'Jaipur', price: '₹599' },
-    { from: 'Hyderabad', to: 'Bangalore', price: '₹1050' },
+    { from: 'Bangalore', to: 'Chennai', price: '₹850', duration: '7.5 hrs', operator: 'GreenLine Volvo' },
+    { from: 'Mumbai', to: 'Goa', price: '₹1450', duration: '12 hrs', operator: 'IntrCity SmartBus' },
+    { from: 'Delhi', to: 'Jaipur', price: '₹599', duration: '5 hrs', operator: 'Zingbus Maxx' },
+    { from: 'Hyderabad', to: 'Bangalore', price: '₹1050', duration: '9 hrs', operator: 'Kaveri Travels' },
+  ];
+
+  const quickStats = [
+    { number: '10,000+', label: 'Daily Travelers' },
+    { number: '150+', label: 'Verified Routes' },
+    { number: '4.8 ★', label: 'Average Rating' },
+    { number: '100% Instant', label: 'Booking Confirmation' },
   ];
 
   return (
-    <main className="page-wrapper">
-      {/* Hero */}
+    <main className="page-wrapper" style={{ paddingBottom: '5rem' }}>
+      {/* Hero Section */}
       <section className="hero">
-        <h1>🚌 Book Your Bus Ticket</h1>
-        <p>Search available buses, pick your preferred seat, and confirm your booking instantly.</p>
-
-        {/* Quick Search Widget */}
-        <div style={{ maxWidth: '800px', margin: '1.5rem auto 0', background: 'var(--white)', padding: '1.5rem', borderRadius: '14px', color: 'var(--text)', boxShadow: '0 12px 30px rgba(0,0,0,0.15)' }}>
-          <form onSubmit={handleSearch} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', alignItems: 'flex-end', textAlign: 'left' }}>
-            <div className="form-group" style={{ margin: 0 }}>
-              <label htmlFor="home-source">From</label>
-              <input
-                id="home-source"
-                type="text"
-                placeholder="e.g. Bangalore"
-                value={source}
-                onChange={(e) => setSource(e.target.value)}
-              />
-            </div>
-
-            <div className="form-group" style={{ margin: 0 }}>
-              <label htmlFor="home-dest">To</label>
-              <input
-                id="home-dest"
-                type="text"
-                placeholder="e.g. Chennai"
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-              />
-            </div>
-
-            <div className="form-group" style={{ margin: 0 }}>
-              <label htmlFor="home-date">Journey Date</label>
-              <input
-                id="home-date"
-                type="date"
-                min={todayStr}
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </div>
-
-            <button type="submit" className="btn btn-success" style={{ height: '42px', fontSize: '1rem' }}>
-              Search Buses &rarr;
-            </button>
-          </form>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '.5rem', background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)', padding: '.35rem 1rem', borderRadius: '9999px', fontSize: '.85rem', marginBottom: '1.25rem', border: '1px solid rgba(255,255,255,0.15)', color: '#c7d2fe' }}>
+          <span>✨</span> India's Next-Gen Bus Reservation Platform
         </div>
+        <h1>Effortless Bus Journeys,<br />Booked in Seconds</h1>
+        <p>Real-time seat layout map, zero hidden charges, and instant digital boarding passes directly to your phone.</p>
       </section>
 
+      {/* Quick Search Widget */}
+      <div className="search-card" style={{ maxWidth: '920px', margin: '0 auto 3.5rem' }}>
+        <form onSubmit={handleSearch} className="search-grid">
+          <div className="form-group" style={{ margin: 0 }}>
+            <label htmlFor="home-source">📍 From</label>
+            <input
+              id="home-source"
+              type="text"
+              placeholder="Leaving from (e.g. Bangalore)"
+              value={source}
+              onChange={(e) => setSource(e.target.value)}
+            />
+          </div>
+
+          <button
+            type="button"
+            className="swap-btn"
+            onClick={() => {
+              const temp = source;
+              setSource(destination);
+              setDestination(temp);
+            }}
+            title="Swap Origin & Destination"
+          >
+            ⇄
+          </button>
+
+          <div className="form-group" style={{ margin: 0 }}>
+            <label htmlFor="home-dest">🏁 To</label>
+            <input
+              id="home-dest"
+              type="text"
+              placeholder="Going to (e.g. Chennai)"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group" style={{ margin: 0 }}>
+            <label htmlFor="home-date">📅 Journey Date</label>
+            <input
+              id="home-date"
+              type="date"
+              min={todayStr}
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary" style={{ height: '46px', fontSize: '1rem' }}>
+            Find Buses &rarr;
+          </button>
+        </form>
+      </div>
+
+      {/* Quick Stats Bar */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.25rem', marginBottom: '3.5rem' }}>
+        {quickStats.map((st, i) => (
+          <div key={i} className="card" style={{ padding: '1.25rem', textAlign: 'center', background: 'var(--surface)' }}>
+            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--primary)', letterSpacing: '-0.02em' }}>
+              {st.number}
+            </div>
+            <div style={{ color: 'var(--text-muted)', fontSize: '.85rem', fontWeight: 500, marginTop: '.2rem' }}>
+              {st.label}
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Popular Routes */}
-      <section style={{ marginBottom: '2.5rem' }}>
-        <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', fontWeight: 700 }}>Popular Intercity Routes</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+      <section style={{ marginBottom: '3.5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.25rem' }}>
+          <div>
+            <h2 style={{ fontSize: '1.4rem', fontWeight: 800 }}>Popular Express Routes</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '.9rem', marginTop: '.2rem' }}>
+              Frequently booked intercity services with guaranteed departures.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="btn btn-outline btn-sm"
+            onClick={() => navigate('/buses')}
+          >
+            Explore All &rarr;
+          </button>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem' }}>
           {popularRoutes.map((route, idx) => (
             <div
               key={idx}
               className="card"
-              style={{ padding: '1.25rem', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'transform .2s' }}
+              style={{
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                padding: '1.5rem',
+                border: '1.5px solid var(--border)'
+              }}
               onClick={() => navigate(`/buses?source=${route.from}&destination=${route.to}&date=${todayStr}`)}
             >
               <div>
-                <div style={{ fontWeight: 700, fontSize: '1rem' }}>{route.from} &rarr; {route.to}</div>
-                <div style={{ fontSize: '.8rem', color: 'var(--muted)' }}>Daily departures</div>
+                <div style={{ fontSize: '.78rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '.05em' }}>
+                  {route.operator}
+                </div>
+                <div style={{ fontWeight: 800, fontSize: '1.15rem', marginTop: '.4rem', color: 'var(--text)' }}>
+                  {route.from} <span style={{ color: 'var(--primary)' }}>&rarr;</span> {route.to}
+                </div>
+                <div style={{ fontSize: '.85rem', color: 'var(--text-muted)', marginTop: '.3rem' }}>
+                  ⏱️ {route.duration} • Daily departures
+                </div>
               </div>
-              <div style={{ textAlign: 'right' }}>
-                <span style={{ fontSize: '.8rem', color: 'var(--muted)' }}>from</span>
-                <div style={{ fontWeight: 800, color: 'var(--primary)', fontSize: '1.1rem' }}>{route.price}</div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px dashed var(--border)' }}>
+                <div>
+                  <span style={{ fontSize: '.75rem', color: 'var(--text-muted)' }}>Fares starting</span>
+                  <div style={{ fontWeight: 800, color: 'var(--primary)', fontSize: '1.25rem' }}>{route.price}</div>
+                </div>
+                <span className="btn btn-sm btn-primary" style={{ padding: '.35rem .75rem', fontSize: '.8rem' }}>
+                  Book &rarr;
+                </span>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Features */}
-      <h2 style={{ marginBottom: '.75rem', fontSize: '1.25rem', fontWeight: 700 }}>Why use BusReservationSystem?</h2>
-      <div className="features-grid">
-        <div className="feature-card">
-          <div className="icon">🔍</div>
-          <h3>Easy Search</h3>
-          <p>Find buses by route and journey date instantly.</p>
+      {/* Why Choose Us */}
+      <section>
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <h2 style={{ fontSize: '1.6rem', fontWeight: 800 }}>Why Travel With Us?</h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '.95rem', marginTop: '.3rem' }}>
+            Engineered for reliability, live seat visibility, and lightning-fast checkouts.
+          </p>
         </div>
-        <div className="feature-card">
-          <div className="icon">💺</div>
-          <h3>Interactive Seat Selection</h3>
-          <p>Choose your favorite lower or upper berth with live availability.</p>
+
+        <div className="features-grid">
+          <div className="feature-card">
+            <div className="icon">🎯</div>
+            <h3>Direct Seat Selection</h3>
+            <p>Pick your exact seat—window, aisle, lower berth, or sleeper with live occupancy indicators.</p>
+          </div>
+          <div className="feature-card">
+            <div className="icon">⚡</div>
+            <h3>Supabase Real-Time Engine</h3>
+            <p>ACID database-level concurrency prevents race conditions and accidental double-bookings.</p>
+          </div>
+          <div className="feature-card">
+            <div className="icon">📲</div>
+            <h3>Digital Boarding Pass</h3>
+            <p>Instant booking reference ID, boarding timings, and seat tags accessible straight from your browser.</p>
+          </div>
+          <div className="feature-card">
+            <div className="icon">🛡️</div>
+            <h3>Hassle-Free Cancellation</h3>
+            <p>Change of plans? Cancel reservations with a single click and restore seat inventory instantly.</p>
+          </div>
         </div>
-        <div className="feature-card">
-          <div className="icon">⚡</div>
-          <h3>Supabase Powered</h3>
-          <p>ACID transactions prevent race conditions & double booking.</p>
-        </div>
-        <div className="feature-card">
-          <div className="icon">📋</div>
-          <h3>Instant Boarding Pass</h3>
-          <p>View, print, or cancel tickets anytime from your dashboard.</p>
-        </div>
-      </div>
+      </section>
     </main>
   );
 }
