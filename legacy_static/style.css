@@ -1,0 +1,306 @@
+﻿/* ============================================================
+   style.css  –  Global styles for BusReservationSystem
+   ============================================================ */
+
+/* ---------- CSS Variables (easy to customise) ---------- */
+:root {
+  --primary:   #2563eb;   /* blue-600  */
+  --primary-dark: #1d4ed8; /* blue-700 */
+  --secondary: #f1f5f9;   /* slate-100 */
+  --accent:    #16a34a;   /* green-600 */
+  --danger:    #dc2626;   /* red-600   */
+  --text:      #1e293b;   /* slate-800 */
+  --muted:     #64748b;   /* slate-500 */
+  --white:     #ffffff;
+  --border:    #e2e8f0;   /* slate-200 */
+  --radius:    10px;
+  --shadow:    0 4px 24px rgba(0,0,0,.08);
+}
+
+/* ---------- Reset & base ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--secondary);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; }
+
+/* ---------- Navbar ---------- */
+.navbar {
+  background: var(--primary);
+  color: var(--white);
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+.navbar .brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.navbar .brand span { font-size: 1.4rem; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: rgba(255,255,255,.85);
+  font-size: .95rem;
+  padding: .4rem .7rem;
+  border-radius: 6px;
+  transition: background .2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background: rgba(255,255,255,.2);
+  text-decoration: none;
+  color: var(--white);
+}
+
+#nav-user-name {
+  font-size: .9rem;
+  color: rgba(255,255,255,.8);
+}
+
+/* ---------- Page wrapper ---------- */
+.page-wrapper {
+  flex: 1;
+  padding: 2rem 1rem;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ---------- Hero section (home) ---------- */
+.hero {
+  background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+  color: var(--white);
+  text-align: center;
+  padding: 4rem 1.5rem;
+  border-radius: var(--radius);
+  margin-bottom: 2.5rem;
+}
+
+.hero h1 { font-size: 2.4rem; font-weight: 800; margin-bottom: .75rem; }
+.hero p  { font-size: 1.15rem; opacity: .9; margin-bottom: 2rem; }
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: var(--text);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  padding: .65rem 1.4rem;
+  border-radius: 8px;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background .2s, transform .1s;
+}
+
+.btn:active { transform: scale(.97); }
+
+.btn-primary  { background: var(--primary);  color: var(--white); }
+.btn-primary:hover { background: var(--primary-dark); text-decoration: none; }
+
+.btn-success  { background: var(--accent);   color: var(--white); }
+.btn-success:hover { background: #15803d; text-decoration: none; }
+
+.btn-danger   { background: var(--danger);   color: var(--white); }
+.btn-danger:hover { background: #b91c1c; text-decoration: none; }
+
+.btn-outline  { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+.btn-outline:hover { background: var(--primary); color: var(--white); text-decoration: none; }
+
+.btn-sm { padding: .4rem 1rem; font-size: .85rem; }
+
+.btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ---------- Forms ---------- */
+.form-group { margin-bottom: 1.1rem; }
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: .9rem;
+  margin-bottom: .4rem;
+  color: var(--text);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: .65rem .9rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: .95rem;
+  color: var(--text);
+  background: var(--white);
+  transition: border-color .2s;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+}
+
+/* ---------- Alert / toast messages ---------- */
+.alert {
+  padding: .75rem 1rem;
+  border-radius: 8px;
+  font-size: .9rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.alert-error   { background: #fee2e2; color: #991b1b; border-left: 4px solid var(--danger); }
+.alert-success { background: #dcfce7; color: #14532d; border-left: 4px solid var(--accent); }
+.alert-info    { background: #dbeafe; color: #1e3a8a; border-left: 4px solid var(--primary); }
+
+/* ---------- Auth pages layout ---------- */
+.auth-wrapper {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.auth-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-card h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: .3rem;
+  color: var(--text);
+}
+
+.auth-card p.subtitle {
+  color: var(--muted);
+  font-size: .9rem;
+  margin-bottom: 1.75rem;
+}
+
+.auth-footer {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+/* ---------- Loading spinner ---------- */
+.spinner {
+  display: inline-block;
+  width: 18px; height: 18px;
+  border: 3px solid rgba(255,255,255,.4);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Features grid (home) ---------- */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.feature-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+}
+
+.feature-card .icon {
+  font-size: 2.2rem;
+  margin-bottom: .75rem;
+}
+
+.feature-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: .4rem;
+}
+
+.feature-card p {
+  font-size: .85rem;
+  color: var(--muted);
+}
+
+/* ---------- Footer ---------- */
+footer {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 1rem;
+  font-size: .85rem;
+  color: var(--muted);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+  .hero h1  { font-size: 1.75rem; }
+  .auth-card { padding: 2rem 1.25rem; }
+  .navbar .brand { font-size: 1rem; }
+}

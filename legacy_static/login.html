@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BusReservationSystem – Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <a class="brand" href="index.html"><span>🚌</span> BusReservationSystem</a>
+    <ul class="nav-links" id="nav-links"></ul>
+  </nav>
+
+  <!-- ===== LOGIN FORM ===== -->
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <h2>Welcome back 👋</h2>
+      <p class="subtitle">Log in to your account to manage bookings.</p>
+
+      <!-- Error / Success message area -->
+      <div id="msg-box"></div>
+
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-primary" id="login-btn" style="width:100%">
+          Log In
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Don't have an account? <a href="signup.html">Sign up</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>

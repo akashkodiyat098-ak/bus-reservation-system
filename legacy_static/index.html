@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BusReservationSystem – Home</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <a class="brand" href="index.html"><span>🚌</span> BusReservationSystem</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <!-- Links rendered by script.js based on session -->
+    </ul>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="page-wrapper">
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1>🚌 Book Your Bus Ticket</h1>
+      <p>Search available buses, pick your seat, and confirm your booking — all in one place.</p>
+      <a href="buses.html" class="btn btn-success" style="font-size:1rem; padding:.8rem 2rem;">
+        Search Buses &rarr;
+      </a>
+    </section>
+
+    <!-- Features -->
+    <h2 style="margin-bottom:.75rem; font-size:1.2rem;">Why use BusReservationSystem?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon">🔍</div>
+        <h3>Easy Search</h3>
+        <p>Find buses by route and journey date instantly.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">💺</div>
+        <h3>Seat Selection</h3>
+        <p>Choose your preferred seat from an interactive layout.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">✅</div>
+        <h3>Instant Confirmation</h3>
+        <p>Your booking is confirmed and saved securely in real time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📋</div>
+        <h3>Manage Bookings</h3>
+        <p>View or cancel your bookings from My Bookings page.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    &copy; 2026 BusReservationSystem &mdash; College Project
+  </footer>
+
+  <!-- Supabase CDN (must come BEFORE supabase.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
