@@ -101,8 +101,8 @@ export default function Seats() {
     if (selectedSeats.includes(seatId)) {
       setSelectedSeats(selectedSeats.filter(s => s !== seatId));
     } else {
-      if (selectedSeats.length >= 6) {
-        alert("You can select up to 6 seats per booking.");
+      if (selectedSeats.length >= 3) {
+        alert("You can select up to 3 seats per booking.");
         return;
       }
       setSelectedSeats([...selectedSeats, seatId]);
@@ -273,6 +273,7 @@ export default function Seats() {
 
       <div className="seats-layout-grid">
         {/* Seat Layout Cabin */}
+        {/* Realistic Bus Interior View */}
         <div className="bus-deck-wrapper">
           {isSleeper && (
             <div className="deck-tabs">
@@ -281,55 +282,223 @@ export default function Seats() {
                 className={`deck-tab ${activeDeck === 'lower' ? 'active' : ''}`}
                 onClick={() => setActiveDeck('lower')}
               >
-                Lower Deck ({lowerSeats.length} berths)
+                🛏️ Lower Deck ({lowerSeats.length} berths)
               </button>
               <button
                 type="button"
                 className={`deck-tab ${activeDeck === 'upper' ? 'active' : ''}`}
                 onClick={() => setActiveDeck('upper')}
               >
-                Upper Deck ({upperSeats.length} berths)
+                🛏️ Upper Deck ({upperSeats.length} berths)
               </button>
             </div>
           )}
 
-          <div className="bus-front-cabin">
-            <span>Front of Bus / Driver Cabin</span>
-            <span className="steering-wheel" title="Driver Area">🎛️ 🚗</span>
-          </div>
-
-          {/* Seats Grid */}
-          <div className="seats-grid">
-            {seatsToRender.map((seatId, idx) => {
-              const isBooked = bookedSeats.includes(seatId);
-              const isSelected = selectedSeats.includes(seatId);
-
-              return (
-                <div
-                  key={seatId}
-                  className={`seat ${isSleeper ? 'sleeper' : ''} ${isBooked ? 'booked' : ''} ${isSelected ? 'selected' : ''}`}
-                  onClick={() => toggleSeat(seatId)}
-                  title={isBooked ? `Seat ${seatId} (Booked)` : `Seat ${seatId} - Click to select`}
-                >
-                  <span>{seatId}</span>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Seat Legend */}
-          <div className="seat-legend">
+          {/* Seat Status Legend */}
+          <div className="bus-legend-bar">
             <div className="legend-item">
-              <div className="legend-color avail"></div>
+              <div className="legend-seat-sample avail">
+                <span className="sample-headrest"></span>
+                <span className="sample-cushion"></span>
+              </div>
               <span>Available</span>
             </div>
             <div className="legend-item">
-              <div className="legend-color sel"></div>
+              <div className="legend-seat-sample sel">
+                <span className="sample-headrest"></span>
+                <span className="sample-cushion"></span>
+              </div>
               <span>Selected ({selectedSeats.length})</span>
             </div>
             <div className="legend-item">
-              <div className="legend-color occ"></div>
+              <div className="legend-seat-sample occ">
+                <span className="sample-headrest"></span>
+                <span className="sample-cushion"></span>
+              </div>
               <span>Booked</span>
+            </div>
+          </div>
+
+          {/* Bus Body Top-Down View */}
+          <div className="bus-chassis-scroll">
+            <div className="bus-chassis">
+              {/* Bus Exterior Roof/Mirrors Accents */}
+              <div className="bus-mirror bus-mirror-left"></div>
+              <div className="bus-mirror bus-mirror-right"></div>
+
+              {/* Front Wheel Arches */}
+              <div className="bus-wheel-arch wheel-front-left"></div>
+              <div className="bus-wheel-arch wheel-front-right"></div>
+
+              {/* Rear Wheel Arches */}
+              <div className="bus-wheel-arch wheel-rear-left"></div>
+              <div className="bus-wheel-arch wheel-rear-right"></div>
+
+              {/* Front Windshield & Driver Cockpit */}
+              <div className="bus-front-header">
+                <div className="windshield-glass">
+                  <div className="windshield-wiper left"></div>
+                  <div className="windshield-wiper right"></div>
+                  <span className="windshield-label">FRONT / WINDSHIELD</span>
+                </div>
+
+                <div className="cockpit-area">
+                  <div className="cockpit-door">
+                    <span className="door-icon">🚪</span>
+                    <span className="door-label">FRONT ENTRANCE</span>
+                  </div>
+
+                  <div className="cockpit-center-console">
+                    <div className="speedometer-cluster">
+                      <span className="dash-indicator"></span>
+                      <span className="dash-indicator"></span>
+                    </div>
+                  </div>
+
+                  <div className="cockpit-driver">
+                    <div className="driver-wheel-wrap" title="Driver's Cabin">
+                      <div className="realistic-steering-wheel">
+                        <div className="wheel-center"></div>
+                      </div>
+                    </div>
+                    <div className="driver-seat-box">
+                      <span className="driver-label">DRIVER</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Passenger Cabin Interior */}
+              <div className="bus-cabin-interior">
+                {/* Windows strip along sides */}
+                <div className="interior-side-rail left-rail"></div>
+                <div className="interior-side-rail right-rail"></div>
+
+                {/* Seater: 2 + Walkway + 2 arrangement */}
+                {!isSleeper ? (
+                  <div className="bus-seating-plan">
+                    {Array.from({ length: Math.ceil(seatsToRender.length / 4) }).map((_, rowIndex) => {
+                      const s1 = seatsToRender[rowIndex * 4];
+                      const s2 = seatsToRender[rowIndex * 4 + 1];
+                      const s3 = seatsToRender[rowIndex * 4 + 2];
+                      const s4 = seatsToRender[rowIndex * 4 + 3];
+
+                      const renderSeat = (seatId) => {
+                        if (!seatId) return <div className="seat-placeholder" key={`empty-${Math.random()}`}></div>;
+                        const isBooked = bookedSeats.includes(seatId);
+                        const isSelected = selectedSeats.includes(seatId);
+
+                        return (
+                          <button
+                            type="button"
+                            key={seatId}
+                            className={`bus-seat ${isBooked ? 'booked' : ''} ${isSelected ? 'selected' : ''}`}
+                            onClick={() => toggleSeat(seatId)}
+                            disabled={isBooked}
+                            title={isBooked ? `Seat ${seatId} - Booked` : `Seat ${seatId} - Click to select`}
+                            aria-label={`Seat ${seatId}`}
+                          >
+                            <span className="seat-armrest left-armrest"></span>
+                            <div className="seat-main-body">
+                              <span className="seat-headrest"></span>
+                              <div className="seat-inner-cushion">
+                                <span className="seat-number">{seatId}</span>
+                              </div>
+                              <span className="seat-indicator-strip"></span>
+                            </div>
+                            <span className="seat-armrest right-armrest"></span>
+                          </button>
+                        );
+                      };
+
+                      return (
+                        <div key={`row-${rowIndex}`} className="bus-cabin-row">
+                          <div className="seat-column-pair left-pair">
+                            {renderSeat(s1)}
+                            {renderSeat(s2)}
+                          </div>
+
+                          <div className="cabin-aisle">
+                            <span className="aisle-guide-arrow">▲</span>
+                            <span className="aisle-text">AISLE</span>
+                          </div>
+
+                          <div className="seat-column-pair right-pair">
+                            {renderSeat(s3)}
+                            {renderSeat(s4)}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  /* Sleeper: 2 + Walkway + 1 realistic berth arrangement */
+                  <div className="bus-sleeper-plan">
+                    {Array.from({ length: Math.ceil(seatsToRender.length / 3) }).map((_, rowIndex) => {
+                      const b1 = seatsToRender[rowIndex * 3];
+                      const b2 = seatsToRender[rowIndex * 3 + 1];
+                      const b3 = seatsToRender[rowIndex * 3 + 2];
+
+                      const renderBerth = (seatId, isSingle = false) => {
+                        if (!seatId) return <div className={`berth-placeholder ${isSingle ? 'single' : 'double'}`} key={`empty-b-${Math.random()}`}></div>;
+                        const isBooked = bookedSeats.includes(seatId);
+                        const isSelected = selectedSeats.includes(seatId);
+
+                        return (
+                          <button
+                            type="button"
+                            key={seatId}
+                            className={`bus-berth ${isSingle ? 'berth-single' : 'berth-double'} ${isBooked ? 'booked' : ''} ${isSelected ? 'selected' : ''}`}
+                            onClick={() => toggleSeat(seatId)}
+                            disabled={isBooked}
+                            title={isBooked ? `Berth ${seatId} - Booked` : `Berth ${seatId} - Click to select`}
+                            aria-label={`Berth ${seatId}`}
+                          >
+                            <div className="berth-pillow">
+                              <span className="pillow-shape"></span>
+                            </div>
+                            <div className="berth-mattress">
+                              <span className="berth-number">{seatId}</span>
+                              <span className="berth-type-label">{activeDeck === 'upper' ? 'UB' : 'LB'}</span>
+                            </div>
+                            <span className="berth-bedsheet-fold"></span>
+                          </button>
+                        );
+                      };
+
+                      return (
+                        <div key={`sleeper-row-${rowIndex}`} className="bus-sleeper-row">
+                          <div className="berth-column-pair left-berths">
+                            {renderBerth(b1)}
+                            {renderBerth(b2)}
+                          </div>
+
+                          <div className="cabin-aisle">
+                            <span className="aisle-guide-arrow">▲</span>
+                            <span className="aisle-text">WALKWAY</span>
+                          </div>
+
+                          <div className="berth-column-single right-berths">
+                            {renderBerth(b3, true)}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* Rear of Bus / Emergency Exit */}
+              <div className="bus-rear-section">
+                <div className="emergency-exit-zone">
+                  <span className="rear-icon">🚪</span>
+                  <span className="rear-label">EMERGENCY EXIT / REAR</span>
+                </div>
+                <div className="rear-taillights">
+                  <span className="taillight left"></span>
+                  <span className="taillight right"></span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

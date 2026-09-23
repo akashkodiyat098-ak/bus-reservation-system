@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { isSupabaseConfigured } from '../supabaseClient';
 import ProfileModal from './ProfileModal';
 
 export default function Navbar() {
   const { user, profile, isAdmin, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const isLive = isSupabaseConfigured();
   const [showProfile, setShowProfile] = useState(false);
@@ -27,11 +29,12 @@ export default function Navbar() {
       <nav className="navbar">
         <div style={{ display: 'flex', alignItems: 'center', gap: '.85rem' }}>
           <Link className="brand" to="/">
-            <span>🚌</span> BusReservationSystem
+            <span className="brand-logo-icon">🚌</span>
+            <span className="brand-text">Bus<span className="brand-highlight">Go</span></span>
           </Link>
           {isLive ? (
             <span className="status-pill live" title="Connected to Supabase PostgreSQL">
-              ⚡ Supabase
+              <span className="live-dot"></span> Supabase
             </span>
           ) : (
             <span className="status-pill demo" title="Local demo backend. Add Supabase credentials in .env to connect live.">
@@ -66,14 +69,15 @@ export default function Navbar() {
                     to="/admin"
                     className={({ isActive }) => (isActive ? 'active' : '')}
                     style={{
-                      background: 'rgba(255, 215, 0, 0.2)',
-                      border: '1px solid rgba(255, 215, 0, 0.4)',
-                      borderRadius: '6px',
+                      background: 'rgba(245, 158, 11, 0.2)',
+                      border: '1px solid rgba(245, 158, 11, 0.4)',
+                      borderRadius: '8px',
                       padding: '.25rem .6rem',
-                      fontWeight: 700
+                      fontWeight: 700,
+                      color: '#fbbf24'
                     }}
                   >
-                    ⚙️ Admin Panel
+                    ⚙️ Admin
                   </NavLink>
                 </li>
               )}
@@ -83,38 +87,10 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => setShowProfile(true)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '.5rem',
-                    background: 'rgba(255,255,255,0.18)',
-                    border: '1px solid rgba(255,255,255,0.3)',
-                    color: '#fff',
-                    padding: '.35rem .75rem',
-                    borderRadius: '20px',
-                    cursor: 'pointer',
-                    fontSize: '.85rem',
-                    fontWeight: 600,
-                    transition: 'background .2s'
-                  }}
+                  className="user-profile-btn"
                   title="View / Edit Profile"
                 >
-                  <span
-                    style={{
-                      width: '24px',
-                      height: '24px',
-                      borderRadius: '50%',
-                      background: '#fff',
-                      color: 'var(--primary)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '.75rem',
-                      fontWeight: 800
-                    }}
-                  >
-                    {initial}
-                  </span>
+                  <span className="user-avatar-initial">{initial}</span>
                   <span>{displayName}</span>
                 </button>
               </li>
@@ -122,9 +98,8 @@ export default function Navbar() {
               <li>
                 <button
                   type="button"
-                  className="btn btn-outline btn-sm"
+                  className="btn btn-outline btn-sm logout-nav-btn"
                   id="logout-btn"
-                  style={{ color: '#fff', borderColor: '#fff' }}
                   onClick={handleLogout}
                 >
                   Logout
@@ -139,17 +114,32 @@ export default function Navbar() {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/signup" className={({ isActive }) => (isActive ? 'active' : '')}>
-                  Sign Up
+                <NavLink to="/signup" className={({ isActive }) => (isActive ? 'active nav-cta' : 'nav-cta')}>
+                  Sign Up ✨
                 </NavLink>
               </li>
             </>
           )}
+
+          {/* Creative Theme Mode Toggle Button */}
+          <li>
+            <button
+              type="button"
+              className="theme-toggle-btn"
+              onClick={toggleTheme}
+              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? '☀️' : '🌙'}
+            </button>
+          </li>
         </ul>
       </nav>
 
+      {/* Profile Modal */}
       {/* Profile Modal */}
       <ProfileModal isOpen={showProfile} onClose={() => setShowProfile(false)} />
     </>
   );
 }
+

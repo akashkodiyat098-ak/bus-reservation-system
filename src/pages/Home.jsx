@@ -39,7 +39,7 @@ export default function Home() {
       </section>
 
       {/* Quick Search Widget */}
-      <div className="search-card" style={{ maxWidth: '920px', margin: '0 auto 3.5rem' }}>
+      <div className="search-card" style={{ maxWidth: '920px', margin: '0 auto 2.5rem' }}>
         <form onSubmit={handleSearch} className="search-grid">
           <div className="form-group" style={{ margin: 0 }}>
             <label htmlFor="home-source">📍 From</label>
@@ -91,6 +91,66 @@ export default function Home() {
             Find Buses &rarr;
           </button>
         </form>
+
+        {/* Quick city suggestions */}
+        <div style={{ marginTop: '1.25rem', display: 'flex', alignItems: 'center', gap: '.6rem', flexWrap: 'wrap', fontSize: '.82rem' }}>
+          <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>Popular Hubs:</span>
+          {['Bangalore', 'Chennai', 'Mumbai', 'Goa', 'Hyderabad', 'Pune', 'Delhi'].map(city => (
+            <button
+              key={city}
+              type="button"
+              onClick={() => {
+                if (!source) setSource(city);
+                else setDestination(city);
+              }}
+              style={{
+                background: 'var(--secondary)',
+                border: '1px solid var(--border)',
+                color: 'var(--text)',
+                padding: '.25rem .65rem',
+                borderRadius: '9999px',
+                cursor: 'pointer',
+                fontSize: '.8rem',
+                transition: 'var(--transition)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--primary)';
+                e.currentTarget.style.color = 'var(--primary)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--border)';
+                e.currentTarget.style.color = 'var(--text)';
+              }}
+            >
+              +{city}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Live Booking Notification Strip */}
+      <div style={{
+        maxWidth: '920px',
+        margin: '0 auto 2.5rem',
+        background: 'var(--surface)',
+        border: '1px solid var(--border)',
+        borderRadius: 'var(--radius-md)',
+        padding: '.75rem 1.25rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '.75rem',
+        boxShadow: 'var(--shadow-sm)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '.65rem', fontSize: '.88rem' }}>
+          <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 8px #10b981', display: 'inline-block' }}></span>
+          <span style={{ fontWeight: 600, color: 'var(--text)' }}>Live Activity:</span>
+          <span style={{ color: 'var(--text-muted)' }}>Passenger Rahul just reserved 2 Sleeper seats on Bangalore &rarr; Chennai</span>
+        </div>
+        <span style={{ fontSize: '.78rem', color: '#10b981', fontWeight: 700, background: 'rgba(16, 185, 129, 0.1)', padding: '.2rem .55rem', borderRadius: '6px' }}>
+          ⚡ 12 mins ago
+        </span>
       </div>
 
       {/* Quick Stats Bar */}
@@ -129,36 +189,42 @@ export default function Home() {
           {popularRoutes.map((route, idx) => (
             <div
               key={idx}
-              className="card"
+              className="card route-interactive-card"
               style={{
                 cursor: 'pointer',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 padding: '1.5rem',
-                border: '1.5px solid var(--border)'
+                border: '1.5px solid var(--border)',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
               onClick={() => navigate(`/buses?source=${route.from}&destination=${route.to}&date=${todayStr}`)}
             >
               <div>
-                <div style={{ fontSize: '.78rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '.05em' }}>
-                  {route.operator}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '.75rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.05em' }}>
+                    {route.operator}
+                  </span>
+                  <span style={{ fontSize: '.7rem', background: 'var(--primary-light)', color: 'var(--primary)', padding: '.2rem .5rem', borderRadius: '4px', fontWeight: 700 }}>
+                    🔥 Top Rated
+                  </span>
                 </div>
-                <div style={{ fontWeight: 800, fontSize: '1.15rem', marginTop: '.4rem', color: 'var(--text)' }}>
+                <div style={{ fontWeight: 800, fontSize: '1.2rem', marginTop: '.6rem', color: 'var(--text)' }}>
                   {route.from} <span style={{ color: 'var(--primary)' }}>&rarr;</span> {route.to}
                 </div>
-                <div style={{ fontSize: '.85rem', color: 'var(--text-muted)', marginTop: '.3rem' }}>
-                  ⏱️ {route.duration} • Daily departures
+                <div style={{ fontSize: '.85rem', color: 'var(--text-muted)', marginTop: '.35rem', display: 'flex', alignItems: 'center', gap: '.4rem' }}>
+                  <span>⏱️ {route.duration}</span> • <span style={{ color: '#10b981', fontWeight: 600 }}>AC Sleeper</span>
                 </div>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px dashed var(--border)' }}>
                 <div>
                   <span style={{ fontSize: '.75rem', color: 'var(--text-muted)' }}>Fares starting</span>
-                  <div style={{ fontWeight: 800, color: 'var(--primary)', fontSize: '1.25rem' }}>{route.price}</div>
+                  <div style={{ fontWeight: 800, color: 'var(--primary)', fontSize: '1.3rem' }}>{route.price}</div>
                 </div>
-                <span className="btn btn-sm btn-primary" style={{ padding: '.35rem .75rem', fontSize: '.8rem' }}>
-                  Book &rarr;
+                <span className="btn btn-sm btn-primary" style={{ padding: '.45rem .85rem', fontSize: '.82rem', borderRadius: '8px' }}>
+                  Book Seat &rarr;
                 </span>
               </div>
             </div>
