@@ -876,7 +876,7 @@ export default function Admin() {
                   <input
                     type="number"
                     min="10"
-                    max="60"
+                    max="120"
                     value={busForm.total_seats}
                     onChange={(e) => setBusForm({ ...busForm, total_seats: e.target.value })}
                   />
